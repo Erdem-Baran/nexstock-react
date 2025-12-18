@@ -1,16 +1,25 @@
-import { Outlet } from "react-router-dom";
-import Sidebar from "../components/common/Sidebar";
-import Header from "../components/common/Header";
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import Sidebar from '../components/common/Sidebar';
+import Header from '../components/common/Header';
 
 export default function DashboardLayout() {
+  // State that controls whether the sidebar is open or closed
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+
+  // On/Off functions for the sidebar
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const closeSidebar = () => setIsSidebarOpen(false);
+
   return (
     <div className="flex h-screen bg-gray-100">
-      {/* left menu */}
-      <Sidebar />
+      {/* We are sending the status and close function to the sidebar. */}
+      <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
-      {/* main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
+        {/* We are sending the toggle function to the header. */}
+        <Header toggleSidebar={toggleSidebar} />
+        
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
           <Outlet />
         </main>

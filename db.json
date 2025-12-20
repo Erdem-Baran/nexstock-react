@@ -1,8 +1,9 @@
 {
   "users": [],
   "products": [
-    { "id": 1, "name": "Laptop", "price": 15000, "stock": 5, "category": "Electronics" },
-    { "id": 2, "name": "Mouse", "price": 500, "stock": 20, "category": "Electronics" }
+    { "id": 1, "name": "Laptop", "price": 15000, "stock": 5, "category": "Electronics", "status": "Low Stock" },
+    { "id": 2, "name": "Mouse", "price": 500, "stock": 20, "category": "Electronics", "status": "In Stock" },
+    { "id": 3, "name": "Keyboard", "price": 1000, "stock": 0, "category": "Electronics", "status": "Out of Stock" }
   ],
   "orders": []
 }

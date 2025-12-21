@@ -1,13 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   useReactTable,
+  getSortedRowModel,
+  getFilteredRowModel,
+  type SortingState,
 } from "@tanstack/react-table";
 import { getProducts } from "../../api/productApi";
 import type { Product } from "../../types/product";
-import { Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle, ArrowUpDown, Search } from "lucide-react";
 
 // Defining Table Columns
 const columnHelper = createColumnHelper<Product>();
@@ -15,13 +19,25 @@ const columnHelper = createColumnHelper<Product>();
 const columns = [
   columnHelper.accessor("name", {
     header: "Product Name",
-    cell: (info) => <span className="font-medium text-gray-900">{info.getValue()}</span>,
+    cell: (info) => (
+      <span className="font-medium text-gray-900">{info.getValue()}</span>
+    ),
   }),
   columnHelper.accessor("category", {
     header: "Category",
   }),
   columnHelper.accessor("price", {
-    header: "Price",
+    header: ({ column }) => {
+      return (
+        <button
+          className="flex items-center gap-2 hover:text-gray-700"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Price
+          <ArrowUpDown className="w-4 h-4" />
+        </button>
+      );
+    },
     cell: (info) => (
       <span className="text-blue-600 font-medium">
         ₺{info.getValue().toLocaleString("en-US")}
@@ -29,7 +45,17 @@ const columns = [
     ),
   }),
   columnHelper.accessor("stock", {
-    header: "Stock",
+    header: ({ column }) => {
+      return (
+        <button
+          className="flex items-center gap-2 hover:text-gray-700"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Stock
+          <ArrowUpDown className="w-4 h-4" />
+        </button>
+      );
+    },
   }),
   columnHelper.accessor("status", {
     header: "Status",
@@ -42,7 +68,9 @@ const columns = [
         "Out of Stock": "bg-red-100 text-red-800",
       };
       return (
-        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${colors[status]}`}>
+        <span
+          className={`px-2 py-1 rounded-full text-xs font-semibold ${colors[status]}`}
+        >
           {status}
         </span>
       );
@@ -51,8 +79,14 @@ const columns = [
 ];
 
 export default function ProductsPage() {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState("");
   // 1. Pulling Data with React Query
-  const { data: products = [], isLoading, isError } = useQuery({
+  const {
+    data: products = [],
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["products"],
     queryFn: getProducts,
   });
@@ -61,6 +95,14 @@ export default function ProductsPage() {
   const table = useReactTable({
     data: products,
     columns,
+    state: {
+      sorting,
+      globalFilter,
+    },
+    onSortingChange: setSorting,
+    onGlobalFilterChange: setGlobalFilter,
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -78,21 +120,39 @@ export default function ProductsPage() {
     return (
       <div className="p-6 bg-red-50 text-red-600 rounded-lg flex items-center gap-2">
         <AlertCircle className="w-5 h-5" />
-        <span>An error occurred while loading the data. Is the backend (json-server) running?</span>
+        <span>
+          An error occurred while loading the data. Is the backend (json-server)
+          running?
+        </span>
       </div>
     );
   }
 
   return (
     <div className="p-6 space-y-6">
+      {/* HEADER AND BUTTON */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Inventory</h1>
-          <p className="text-gray-500 mt-1">Manage your products here.</p>
+          <p className="text-gray-500 mt-1">
+            You can manage your products here.
+          </p>
         </div>
         <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
           + New Product
         </button>
+      </div>
+
+      {/* --- SEARCH BAR --- */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <input
+          type="text"
+          placeholder="Search by product name, category, or status..."
+          value={globalFilter}
+          onChange={(e) => setGlobalFilter(e.target.value)}
+          className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full md:w-80 focus:ring-2 focus:ring-blue-500 outline-none"
+        />
       </div>
 
       {/* TABLE AREA */}
@@ -102,8 +162,14 @@ export default function ProductsPage() {
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th key={header.id} className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    {flexRender(header.column.columnDef.header, header.getContext())}
+                  <th
+                    key={header.id}
+                    className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
                   </th>
                 ))}
               </tr>
@@ -121,7 +187,7 @@ export default function ProductsPage() {
             ))}
           </tbody>
         </table>
-        
+
         {products.length === 0 && (
           <div className="p-8 text-center text-gray-500">
             No products have been added yet.

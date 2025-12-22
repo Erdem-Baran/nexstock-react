@@ -12,7 +12,7 @@ import {
 import { getProducts, addProduct } from "../../api/productApi";
 import type { Product } from "../../types/product";
 import { Loader2, AlertCircle, ArrowUpDown, Search, Plus } from "lucide-react";
-import AddProductModal from "./AddProductModal";
+import AddProductModal from "../../components/inventory/AddProductModal";
 
 // Defining Table Columns
 const columnHelper = createColumnHelper<Product>();

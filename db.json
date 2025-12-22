@@ -1,9 +1,39 @@
 {
   "users": [],
   "products": [
-    { "id": 1, "name": "Laptop", "price": 15000, "stock": 5, "category": "Electronics", "status": "Low Stock" },
-    { "id": 2, "name": "Mouse", "price": 500, "stock": 20, "category": "Electronics", "status": "In Stock" },
-    { "id": 3, "name": "Keyboard", "price": 1000, "stock": 0, "category": "Electronics", "status": "Out of Stock" }
+    {
+      "id": "1",
+      "name": "Laptop",
+      "price": 1500,
+      "stock": 5,
+      "category": "Electronics",
+      "status": "Low Stock"
+    },
+    {
+      "id": "2",
+      "name": "Mouse",
+      "price": 500,
+      "stock": 20,
+      "category": "Electronics",
+      "status": "In Stock"
+    },
+    {
+      "id": "3",
+      "name": "Keyboard",
+      "price": 100,
+      "stock": 0,
+      "category": "Electronics",
+      "status": "Out of Stock"
+    },
+    {
+      "id": "8e7e",
+      "name": "phone",
+      "category": "electronics",
+      "price": 400,
+      "stock": 17,
+      "status": "In Stock",
+      "lastUpdated": "2025-12-22"
+    }
   ],
   "orders": []
 }

@@ -41,7 +41,7 @@ const columns = [
     },
     cell: (info) => (
       <span className="text-blue-600 font-medium">
-        ₺{info.getValue().toLocaleString("en-US")}
+        ${info.getValue().toLocaleString("en-US")}
       </span>
     ),
   }),

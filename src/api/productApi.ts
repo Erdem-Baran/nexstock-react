@@ -8,6 +8,6 @@ export const getProducts = async (): Promise<Product[]> => {
 export const addProduct = async (
   newProduct: Omit<Product, "id">
 ): Promise<Product> => {
-  const response = await axiosClient.post<Product>("/product", newProduct);
+  const response = await axiosClient.post<Product>("/products", newProduct);
   return response.data;
 };

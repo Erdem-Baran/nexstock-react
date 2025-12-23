@@ -4,7 +4,7 @@ import * as z from "zod";
 import { X, Loader2 } from "lucide-react";
 import { useEffect } from "react";
 
-//  Validation Scheme (Our Rules)
+//  Validation Scheme
 const productSchema = z.object({
   name: z
     .string()

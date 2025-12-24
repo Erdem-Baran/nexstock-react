@@ -38,5 +38,38 @@
       "lastUpdated": "2025-12-24"
     }
   ],
-  "orders": []
+  "orders": [
+    {
+      "id": 1,
+      "customerName": "Ahmet Yılmaz",
+      "orderDate": "2025-10-25",
+      "status": "Delivered",
+      "totalAmount": 15400,
+      "itemsCount": 3
+    },
+    {
+      "id": 2,
+      "customerName": "Ayşe Demir",
+      "orderDate": "2025-10-26",
+      "status": "Processing",
+      "totalAmount": 850,
+      "itemsCount": 1
+    },
+    {
+      "id": 3,
+      "customerName": "Mehmet Kaya",
+      "orderDate": "2025-10-27",
+      "status": "Pending",
+      "totalAmount": 2400,
+      "itemsCount": 2
+    },
+    {
+      "id": 4,
+      "customerName": "Zeynep Çelik",
+      "orderDate": "2025-10-27",
+      "status": "Cancelled",
+      "totalAmount": 1200,
+      "itemsCount": 1
+    }
+  ]
 }

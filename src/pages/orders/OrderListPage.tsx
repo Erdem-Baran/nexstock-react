@@ -6,9 +6,16 @@ import {
   getCoreRowModel,
   useReactTable,
   getSortedRowModel,
+  getPaginationRowModel,
   type SortingState,
 } from "@tanstack/react-table";
-import { Loader2, ArrowUpDown, Eye } from "lucide-react";
+import {
+  Loader2,
+  ArrowUpDown,
+  Eye,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import type { Order } from "../../types/order";
 import { useState } from "react";
 
@@ -98,6 +105,12 @@ export default function OrderListPage() {
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 5,
+      },
+    },
   });
 
   if (isLoading)
@@ -149,6 +162,31 @@ export default function OrderListPage() {
             ))}
           </tbody>
         </table>
+        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gray-50">
+          <span className="text-sm text-gray-700">
+            Page{" "}
+            <span className="font-medium">
+              {table.getState().pagination.pageIndex + 1} {" "}
+            </span>
+            off <span className="font-medium">{table.getPageCount()}</span>
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+              className="p-2 border border-gray-300 rounded-lg hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed bg-white text-gray-700 transition-colors"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+              className="p-2 border border-gray-300 rounded-lg hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed bg-white text-gray-700 transition-colors"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

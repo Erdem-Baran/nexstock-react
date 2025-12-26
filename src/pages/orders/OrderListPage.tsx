@@ -166,7 +166,7 @@ export default function OrderListPage() {
           <span className="text-sm text-gray-700">
             Page{" "}
             <span className="font-medium">
-              {table.getState().pagination.pageIndex + 1} {" "}
+              {table.getState().pagination.pageIndex + 1}{" "}
             </span>
             off <span className="font-medium">{table.getPageCount()}</span>
           </span>

@@ -71,5 +71,52 @@
       "totalAmount": 1200,
       "itemsCount": 1
     }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "name": "Ahmet Yılmaz",
+      "email": "ahmet@example.com",
+      "phone": "+90 555 123 45 67",
+      "status": "Active",
+      "totalSpent": 15400,
+      "joinDate": "2025-01-15"
+    },
+    {
+      "id": 2,
+      "name": "Ayşe Demir",
+      "email": "ayse@example.com",
+      "phone": "+90 555 987 65 43",
+      "status": "Inactive",
+      "totalSpent": 850,
+      "joinDate": "2025-03-20"
+    },
+    {
+      "id": 3,
+      "name": "Mehmet Kaya",
+      "email": "mehmet@example.com",
+      "phone": "+90 532 111 22 33",
+      "status": "Active",
+      "totalSpent": 45000,
+      "joinDate": "2025-11-05"
+    },
+    {
+      "id": 4,
+      "name": "Zeynep Çelik",
+      "email": "zeynep@example.com",
+      "phone": "+90 505 444 55 66",
+      "status": "Active",
+      "totalSpent": 3200,
+      "joinDate": "2025-06-10"
+    },
+    {
+      "id": 5,
+      "name": "Canan Yıldız",
+      "email": "canan@example.com",
+      "phone": "+90 555 222 33 44",
+      "status": "Inactive",
+      "totalSpent": 0,
+      "joinDate": "2025-09-01"
+    }
   ]
 }

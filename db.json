@@ -36,6 +36,15 @@
       "stock": 89,
       "status": "In Stock",
       "lastUpdated": "2025-12-24"
+    },
+    {
+      "id": "5830",
+      "name": "sweater",
+      "category": "Clothing",
+      "price": 5,
+      "stock": 9,
+      "status": "Low Stock",
+      "lastUpdated": "2025-12-26"
     }
   ],
   "orders": [

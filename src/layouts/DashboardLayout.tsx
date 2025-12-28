@@ -12,7 +12,7 @@ export default function DashboardLayout() {
   const closeSidebar = () => setIsSidebarOpen(false);
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex transition-colors duration-200">
       {/* We are sending the status and close function to the sidebar. */}
       <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
@@ -20,7 +20,7 @@ export default function DashboardLayout() {
         {/* We are sending the toggle function to the header. */}
         <Header toggleSidebar={toggleSidebar} />
         
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6 dark:bg-gray-900">
           <Outlet />
         </main>
       </div>

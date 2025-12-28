@@ -97,7 +97,6 @@ export default function SettingsPage() {
           {/* GENERAL SETTINGS */}
           {activeTab === "general" && (
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6 animate-in fade-in duration-300">
-
               {/* THEME SETTINGS SECTION */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
@@ -115,9 +114,7 @@ export default function SettingsPage() {
                     <Sun className="w-6 h-6" />
                     <div className="text-left">
                       <p className="font-semibold">Light Mode</p>
-                      <p className="text-xs opacity-70">
-                        For daytime use
-                      </p>
+                      <p className="text-xs opacity-70">For daytime use</p>
                     </div>
                   </button>
 

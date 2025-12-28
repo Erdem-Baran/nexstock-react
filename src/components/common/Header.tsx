@@ -6,10 +6,10 @@ interface HeaderProps {
 
 export default function Header({ toggleSidebar }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200 sm:px-6">
+    <header className="sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200 sm:px-6 dark:bg-gray-900 dark:text-white">
       
       {/* --- LEFT SIDE: Menu Button + Search --- */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 dark:bg-gray-900 dark:text-white">
         
         {/* 1. Hamburger Menu (Only visible on mobile: md:hidden) */}
         <button
@@ -21,7 +21,7 @@ export default function Header({ toggleSidebar }: HeaderProps) {
 
         {/* 2. Search Bar (Input) */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-200 dark:text-white" />
           <input
             type="text"
             placeholder="Search..."
@@ -45,7 +45,7 @@ export default function Header({ toggleSidebar }: HeaderProps) {
           
           {/* Name & Role (Hidden on mobile - hidden sm:block) */}
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-medium text-gray-900">Admin User</p>
+            <p className="text-sm font-medium">Admin User</p>
             <p className="text-xs text-gray-500">Manager</p>
           </div>
 

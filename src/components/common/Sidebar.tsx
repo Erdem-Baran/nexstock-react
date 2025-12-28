@@ -54,8 +54,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
           <h1 className="text-2xl font-bold text-blue-600">NexStock</h1>
           {/* Close button in the top right corner on mobile */}
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="md:hidden p-1 text-gray-500 hover:bg-gray-100 rounded-lg"
           >
             <X className="w-6 h-6" />

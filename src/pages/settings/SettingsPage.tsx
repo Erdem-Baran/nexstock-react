@@ -1,9 +1,24 @@
 import { useState } from "react";
-import { Save, User, Bell, Lock, Globe, Moon, Store, Mail } from "lucide-react";
+import {
+  Save,
+  User,
+  Bell,
+  Lock,
+  Globe,
+  Moon,
+  Store,
+  Mail,
+  Sun,
+} from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import { setTheme } from "../../store/themeSlice";
+import type { RootState } from "../../store/store";
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("general");
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const currentTheme = useSelector((state: RootState) => state.theme.mode);
 
   // Save simulation
   const handleSave = () => {
@@ -82,6 +97,46 @@ export default function SettingsPage() {
           {/* GENERAL SETTINGS */}
           {activeTab === "general" && (
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6 animate-in fade-in duration-300">
+
+              {/* THEME SETTINGS SECTION */}
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  Appearance Preference
+                </label>
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => dispatch(setTheme("light"))} // Redux Dispatch
+                    className={`flex-1 flex items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all ${
+                      currentTheme === "light"
+                        ? "border-blue-500 bg-blue-50 text-blue-700"
+                        : "border-gray-200 hover:border-gray-300 text-gray-600 dark:text-gray-400 dark:border-gray-700"
+                    }`}
+                  >
+                    <Sun className="w-6 h-6" />
+                    <div className="text-left">
+                      <p className="font-semibold">Light Mode</p>
+                      <p className="text-xs opacity-70">
+                        For daytime use
+                      </p>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => dispatch(setTheme("dark"))} // Redux Dispatch
+                    className={`flex-1 flex items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all ${
+                      currentTheme === "dark"
+                        ? "border-blue-500 bg-gray-900 text-white"
+                        : "border-gray-200 hover:border-gray-300 text-gray-600 dark:text-gray-400 dark:border-gray-700"
+                    }`}
+                  >
+                    <Moon className="w-6 h-6" />
+                    <div className="text-left">
+                      <p className="font-semibold">Dark Mode</p>
+                      <p className="text-xs opacity-70">Eye-friendly theme</p>
+                    </div>
+                  </button>
+                </div>
+              </div>
               <div className="border-b border-gray-100 pb-4">
                 <h2 className="text-lg font-semibold text-gray-900">
                   Store Information

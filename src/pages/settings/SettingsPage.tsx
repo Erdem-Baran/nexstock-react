@@ -1,15 +1,5 @@
 import { useState } from "react";
-import {
-  Save,
-  User,
-  Bell,
-  Lock,
-  Globe,
-  Moon,
-  Store,
-  Mail,
-  Sun,
-} from "lucide-react";
+import { Save, Bell, Lock, Moon, Store, Mail, Sun } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { setTheme } from "../../store/themeSlice";
 import type { RootState } from "../../store/store";
@@ -33,8 +23,10 @@ export default function SettingsPage() {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-          <p className="text-gray-500">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-200">
+            Settings
+          </h1>
+          <p className="text-gray-500 dark:text-gray-200">
             Manage your app preferences and account settings.
           </p>
         </div>
@@ -50,15 +42,15 @@ export default function SettingsPage() {
 
       <div className="flex flex-col lg:flex-row gap-6">
         {/* --- LEFT MENU  --- */}
-        <div className="w-full lg:w-64 flex-shrink-0">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="w-full lg:w-64 shrink-0">
+          <div className="bg-white dark:bg-gray-900 dark:text-gray-200 rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <nav className="flex flex-col p-2 space-y-1">
               <button
                 onClick={() => setActiveTab("general")}
-                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors dark:hover:text-gray-200 dark:hover:bg-gray-800  ${
                   activeTab === "general"
-                    ? "bg-blue-50 text-blue-700"
-                    : "text-gray-600 hover:bg-gray-50"
+                    ? "bg-blue-50 text-blue-700 dark:bg-gray-900 dark:text-gray-200"
+                    : "text-gray-600 hover:bg-gray-50 dark:bg-gray-900 dark:text-gray-200"
                 }`}
               >
                 <Store className="w-5 h-5" />
@@ -67,10 +59,10 @@ export default function SettingsPage() {
 
               <button
                 onClick={() => setActiveTab("notifications")}
-                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors dark:hover:text-gray-200 dark:hover:bg-gray-800 ${
                   activeTab === "notifications"
-                    ? "bg-blue-50 text-blue-700"
-                    : "text-gray-600 hover:bg-gray-50"
+                    ? "bg-blue-50 text-blue-700 dark:bg-gray-900 dark:text-gray-200"
+                    : "text-gray-600 hover:bg-gray-50 dark:bg-gray-900 dark:text-gray-200"
                 }`}
               >
                 <Bell className="w-5 h-5" />
@@ -79,10 +71,10 @@ export default function SettingsPage() {
 
               <button
                 onClick={() => setActiveTab("security")}
-                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors dark:hover:text-gray-200 dark:hover:bg-gray-800 ${
                   activeTab === "security"
-                    ? "bg-blue-50 text-blue-700"
-                    : "text-gray-600 hover:bg-gray-50"
+                    ? "bg-blue-50 text-blue-700 dark:bg-gray-900 dark:text-gray-200"
+                    : "text-gray-600 hover:bg-gray-50 dark:bg-gray-900 dark:text-gray-200"
                 }`}
               >
                 <Lock className="w-5 h-5" />
@@ -96,7 +88,7 @@ export default function SettingsPage() {
         <div className="flex-1">
           {/* GENERAL SETTINGS */}
           {activeTab === "general" && (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6 animate-in fade-in duration-300">
+            <div className="bg-white dark:bg-gray-900 dark:text-gray-200 rounded-xl shadow-sm border border-gray-200 p-6 space-y-6 animate-in fade-in duration-300">
               {/* THEME SETTINGS SECTION */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
@@ -135,17 +127,17 @@ export default function SettingsPage() {
                 </div>
               </div>
               <div className="border-b border-gray-100 pb-4">
-                <h2 className="text-lg font-semibold text-gray-900">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
                   Store Information
                 </h2>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 dark:text-gray-200">
                   Your business's basic information.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                     Store Name
                   </label>
                   <input
@@ -155,7 +147,7 @@ export default function SettingsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                     Email Address
                   </label>
                   <input
@@ -165,20 +157,20 @@ export default function SettingsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                     Currency
                   </label>
-                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-900">
                     <option value="TRY">Türk Lirası (₺)</option>
                     <option value="USD">Amerikan Doları ($)</option>
                     <option value="EUR">Euro (€)</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                     Time Zone
                   </label>
-                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-900">
                     <option>(GMT+03:00) İstanbul</option>
                     <option>(GMT+00:00) Londra</option>
                     <option>(GMT-05:00) New York</option>
@@ -190,27 +182,27 @@ export default function SettingsPage() {
 
           {/* NOTIFICATIONS */}
           {activeTab === "notifications" && (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6 animate-in fade-in duration-300">
+            <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 p-6 space-y-6 animate-in fade-in duration-300">
               <div className="border-b border-gray-100 pb-4">
-                <h2 className="text-lg font-semibold text-gray-900">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
                   Notification Preferences
                 </h2>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   Select the situations in which you want to receive alerts.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+                <div className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700  transition-colors">
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-yellow-100 text-yellow-600 rounded-lg">
                       <Bell className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">
+                      <p className="font-medium text-gray-900 dark:text-gray-200">
                         Low Stock Alert
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         Notify when product stock falls below 10.
                       </p>
                     </div>
@@ -221,20 +213,20 @@ export default function SettingsPage() {
                       defaultChecked
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                   </label>
                 </div>
 
-                <div className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+                <div className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700  transition-colors">
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-green-100 text-green-600 rounded-lg">
                       <Store className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">
+                      <p className="font-medium text-gray-900 dark:text-gray-200">
                         New Order Notification
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         Send an email whenever a new order arrives.
                       </p>
                     </div>
@@ -245,25 +237,27 @@ export default function SettingsPage() {
                       defaultChecked
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                   </label>
                 </div>
 
-                <div className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+                <div className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700  transition-colors">
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-purple-100 text-purple-600 rounded-lg">
                       <Mail className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">Weekly Report</p>
-                      <p className="text-sm text-gray-500">
+                      <p className="font-medium text-gray-900 dark:text-gray-200">
+                        Weekly Report
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         Send the weekly summary report every Monday.
                       </p>
                     </div>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" className="sr-only peer" />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                   </label>
                 </div>
               </div>
@@ -272,45 +266,45 @@ export default function SettingsPage() {
 
           {/* SECURITY */}
           {activeTab === "security" && (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6 animate-in fade-in duration-300">
+            <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 p-6 space-y-6 animate-in fade-in duration-300">
               <div className="border-b border-gray-100 pb-4">
-                <h2 className="text-lg font-semibold text-gray-900">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
                   Password and Security
                 </h2>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   Keep your account security up to date.
                 </p>
               </div>
 
               <div className="space-y-4 max-w-md">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                     Current Password
                   </label>
                   <input
                     type="password"
                     placeholder="••••••••"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:text-gray-100 outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                     New Password
                   </label>
                   <input
                     type="password"
                     placeholder="••••••••"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none dark:text-gray-100"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                     New Password (Repeat)
                   </label>
                   <input
                     type="password"
                     placeholder="••••••••"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:text-gray-100 outline-none"
                   />
                 </div>
               </div>

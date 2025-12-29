@@ -36,20 +36,20 @@ export default function ReportsPage() {
       {/* --- HEADING AND ACTIONS --- */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Reports & Analysis</h1>
-          <p className="text-gray-500">Take a detailed look at your business's performance metrics.</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-200">Reports & Analysis</h1>
+          <p className="text-gray-500 dark:text-gray-300">Take a detailed look at your business's performance metrics.</p>
         </div>
         
         <div className="flex items-center gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+          <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
             <Calendar className="w-4 h-4" />
             This Year
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+          <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
             <Filter className="w-4 h-4" />
             Filter
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors shadow-sm">
+          <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white dark:text-gray-100 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors shadow-sm">
             <Download className="w-4 h-4" />
             Export
           </button>
@@ -58,7 +58,7 @@ export default function ReportsPage() {
 
       {/* --- SUMMARY CARDS --- */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-linear-to-br from-blue-500 to-blue-600 p-6 rounded-2xl text-white shadow-lg">
+        <div className="bg-linear-to-br from-blue-500 dark:from-blue-900 to-blue-600 p-6 rounded-2xl text-white shadow-lg">
           <div className="flex justify-between items-start">
             <div>
               <p className="text-blue-100 text-sm font-medium mb-1">Total Revenue (Annual)</p>
@@ -74,30 +74,30 @@ export default function ReportsPage() {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+        <div className="bg-white dark:bg-gray-500 p-6 rounded-2xl border border-gray-100 shadow-sm">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-gray-500 text-sm font-medium mb-1">Average Cart Value</p>
-              <h3 className="text-3xl font-bold text-gray-900">$450</h3>
+              <p className="text-gray-500 dark:text-gray-950 text-sm font-medium mb-1">Average Cart Value</p>
+              <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100">$450</h3>
             </div>
             <div className="p-2 bg-green-100 rounded-lg">
-              <TrendingUp className="w-6 h-6 text-green-600" />
+              <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-700" />
             </div>
           </div>
-          <p className="mt-4 text-sm text-green-600 font-medium">+5.2% this month</p>
+          <p className="mt-4 text-sm text-green-600 dark:text-green-400 font-medium">+5.2% this month</p>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+        <div className="bg-white dark:bg-gray-500 p-6 rounded-2xl border border-gray-100 shadow-sm">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-gray-500 text-sm font-medium mb-1">Return Rate</p>
-              <h3 className="text-3xl font-bold text-gray-900">%2.4</h3>
+              <p className="text-gray-500 dark:text-gray-950 text-sm font-medium mb-1">Return Rate</p>
+              <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100">%2.4</h3>
             </div>
             <div className="p-2 bg-red-100 rounded-lg">
-              <TrendingDown className="w-6 h-6 text-red-600" />
+              <TrendingDown className="w-6 h-6 text-red-600 dark:text-red-700" />
             </div>
           </div>
-          <p className="mt-4 text-sm text-red-600 font-medium">Compared to last month -0.1% (Good)</p>
+          <p className="mt-4 text-sm text-red-600 dark:text-red-350 font-medium">Compared to last month -0.1% (Good)</p>
         </div>
       </div>
 
@@ -105,8 +105,8 @@ export default function ReportsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Sales Chart */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-bold text-gray-900 mb-6">Monthly Income Analysis</h3>
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-100">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-6">Monthly Income Analysis</h3>
           <div className="h-80 w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={monthlyData}>
@@ -130,8 +130,8 @@ export default function ReportsPage() {
         </div>
 
         {/* Profit/Loss Chart */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-bold text-gray-900 mb-6">Category Performance</h3>
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-100">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-6">Category Performance</h3>
           <div className="h-80 w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={categoryPerformance} layout="vertical">

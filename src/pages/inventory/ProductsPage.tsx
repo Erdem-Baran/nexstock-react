@@ -34,7 +34,7 @@ const columns = [
   columnHelper.accessor("name", {
     header: "Product Name",
     cell: (info) => (
-      <span className="font-medium text-gray-900">{info.getValue()}</span>
+      <span className="font-medium text-gray-900 dark:text-gray-200">{info.getValue()}</span>
     ),
   }),
   columnHelper.accessor("category", {
@@ -44,7 +44,7 @@ const columns = [
     header: ({ column }) => {
       return (
         <button
-          className="flex items-center gap-2 hover:text-gray-700"
+          className="flex items-center gap-2 hover:text-gray-700 dark:hover:text-gray-400 dark:text-gray-300"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Price
@@ -62,7 +62,7 @@ const columns = [
     header: ({ column }) => {
       return (
         <button
-          className="flex items-center gap-2 hover:text-gray-700"
+          className="flex items-center gap-2 hover:text-gray-700 dark:hover:text-gray-400 dark:text-gray-300"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Stock
@@ -203,14 +203,14 @@ export default function ProductsPage() {
       {/* HEADER AND BUTTON */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Inventory</h1>
-          <p className="text-gray-500 mt-1">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-200">Inventory</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
             You can manage your products here.
           </p>
         </div>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          className="bg-blue-600 text-white dark:text-gray-200 px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
         >
           <Plus className="w-5 h-5" /> New Product
         </button>
@@ -218,26 +218,26 @@ export default function ProductsPage() {
 
       {/* --- SEARCH BAR --- */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-200" />
         <input
           type="text"
           placeholder="Search by product name, category, or status..."
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
-          className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full md:w-80 focus:ring-2 focus:ring-blue-500 outline-none"
+          className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full md:w-80 focus:ring-2 focus:ring-blue-500 outline-none dark:placeholder-gray-400"
         />
       </div>
 
       {/* TABLE AREA */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <table className="w-full text-left">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-200 uppercase tracking-wider"
                   >
                     {flexRender(
                       header.column.columnDef.header,
@@ -250,19 +250,19 @@ export default function ProductsPage() {
           </thead>
           <tbody className="divide-y divide-gray-200">
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="hover:bg-gray-50 transition-colors">
+              <tr key={row.id} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                 {row.getVisibleCells().map((cell) => {
                   if (cell.column.id === "actions") {
                     return (
                       <td
                         key={cell.id}
-                        className="px-6 py-4 text-sm text-gray-700"
+                        className="px-6 py-4 text-sm text-gray-700 dark:text-gray-200"
                       >
                         <div className="flex items-center gap-2">
                           {/* Edit Button */}
                           <button
                             onClick={() => handleEdit(row.original)}
-                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                            className="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-700 rounded-lg transition-colors"
                             title="Edit"
                           >
                             <Edit className="w-4 h-4" />
@@ -270,7 +270,7 @@ export default function ProductsPage() {
                           {/* Delete Button */}
                           <button
                             onClick={() => handleDelete(row.original.id)}
-                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            className="p-2 text-red-600 dark:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                             title="Delete"
                           >
                             {deleteMutation.isPending &&
@@ -287,7 +287,7 @@ export default function ProductsPage() {
                   return (
                     <td
                       key={cell.id}
-                      className="px-6 py-4 text-sm text-gray-700"
+                      className="px-6 py-4 text-sm text-gray-700 dark:text-gray-200"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -302,7 +302,7 @@ export default function ProductsPage() {
         </table>
 
         {products.length === 0 && (
-          <div className="p-8 text-center text-gray-500">
+          <div className="p-8 text-center text-gray-500 dark:text-gray-200">
             No products have been added yet.
           </div>
         )}

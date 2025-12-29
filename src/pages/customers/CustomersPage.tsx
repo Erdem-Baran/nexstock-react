@@ -29,7 +29,7 @@ const columns = [
     cell: (info) => (
       <div className="flex flex-col">
         <span className="font-medium text-gray-900">{info.getValue()}</span>
-        <span className="text-xs text-gray-400">
+        <span className="text-xs text-gray-400 dark:text-gray-200">
           ID: #{info.row.original.id}
         </span>
       </div>
@@ -38,7 +38,7 @@ const columns = [
   columnHelper.accessor("email", {
     header: "Contact",
     cell: (info) => (
-      <div className="flex flex-col gap-1 text-sm text-gray-600">
+      <div className="flex flex-col gap-1 text-sm text-gray-600 dark:text-gray-200">
         <div className="flex items-center gap-2">
           <Mail className="w-3 h-3" /> {info.getValue()}
         </div>
@@ -51,14 +51,14 @@ const columns = [
   columnHelper.accessor("totalSpent", {
     header: ({ column }) => (
       <button
-        className="flex items-center gap-2 hover:text-gray-700"
+        className="flex items-center gap-2 hover:text-gray-700 dark:hover:text-gray-400"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Total Expense <ArrowUpDown className="w-4 h-4" />
       </button>
     ),
     cell: (info) => (
-      <span className="font-semibold text-gray-700">
+      <span className="font-semibold text-gray-700 dark:text-gray-200">
         ${info.getValue().toLocaleString("en-US")}
       </span>
     ),
@@ -82,12 +82,12 @@ const columns = [
   }),
   columnHelper.accessor("joinDate", {
     header: "Join Date",
-    cell: (info) => <span className="text-gray-500">{info.getValue()}</span>,
+    cell: (info) => <span className="text-gray-500 dark:text-gray-200">{info.getValue()}</span>,
   }),
   columnHelper.display({
     id: "actions",
     cell: () => (
-      <button className="p-2 text-gray-400 hover:text-gray-600">
+      <button className="p-2 text-gray-400 dark:text-gray-200 hover:text-gray-600">
         <MoreHorizontal className="w-5 h-5" />
       </button>
     ),
@@ -124,7 +124,7 @@ export default function CustomersPage() {
   if (isLoading)
     return (
       <div className="flex justify-center p-10">
-        <Loader2 className="animate-spin text-blue-600" />
+        <Loader2 className="animate-spin text-blue-600 dark:text-blue-400" />
       </div>
     );
 
@@ -132,8 +132,8 @@ export default function CustomersPage() {
     <div className="p-6 space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Customers</h1>
-          <p className="text-gray-500">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-200">Customers</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
             Manage your customer database and spending history.
           </p>
         </div>
@@ -147,20 +147,20 @@ export default function CustomersPage() {
           placeholder="Search by name, email, or phone number..."
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
-          className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full md:w-80 focus:ring-2 focus:ring-blue-500 outline-none"
+          className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full md:w-80 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 outline-none dark:placeholder-gray-400"
         />
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <table className="w-full text-left">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-200 uppercase tracking-wider"
                   >
                     {flexRender(
                       header.column.columnDef.header,
@@ -171,11 +171,11 @@ export default function CustomersPage() {
               </tr>
             ))}
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="hover:bg-gray-50 transition-colors">
+              <tr key={row.id} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-6 py-4 text-sm text-gray-700">
+                  <td key={cell.id} className="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
@@ -185,8 +185,8 @@ export default function CustomersPage() {
         </table>
 
         {/* Pagination Controls */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gray-50">
-          <span className="text-sm text-gray-700">
+        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gray-50 dark:bg-gray-800">
+          <span className="text-sm text-gray-700 dark:text-gray-200">
             Page{" "}
             <span className="font-medium">
               {table.getState().pagination.pageIndex + 1}
@@ -197,14 +197,14 @@ export default function CustomersPage() {
             <button
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              className="px-3 py-1 border rounded hover:bg-white disabled:opacity-50"
+              className="px-3 py-1 border rounded hover:bg-white dark:hover:bg-gray-300 dark:bg-gray-400 disabled:opacity-50"
             >
               Previous
             </button>
             <button
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              className="px-3 py-1 border rounded hover:bg-white disabled:opacity-50"
+              className="px-3 py-1 border rounded hover:bg-white dark:hover:bg-gray-300 dark:bg-gray-400 disabled:opacity-50"
             >
               Next
             </button>

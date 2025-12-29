@@ -1,73 +1,71 @@
-# React + TypeScript + Vite
+# 📦 React Modern Inventory Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A comprehensive, responsive, and modern inventory management dashboard built with **React**, **TypeScript**, and **Tailwind CSS**. This application helps businesses track products, manage orders, and analyze customers with an intuitive user interface and interactive data visualization.
 
-Currently, two official plugins are available:
+![Project Preview](public/project.png)
+*(You can replace this link with an actual screenshot of your dashboard later)*
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## React Compiler
+- **🎨 Modern UI/UX:** Clean interface designed with Tailwind CSS.
+- **🌓 Dark/Light Mode:** Fully supported theme toggling with Redux persistence.
+- **📊 Interactive Charts:** Data visualization for sales and category distribution using Recharts.
+- **📦 Inventory Management:** Search, filter, and manage products efficiently.
+- **👥 Customer & Order Tracking:** Detailed views for customer history and order status.
+- **📱 Fully Responsive:** Optimized for desktop, tablet, and mobile devices.
+- **⚡ Fast Performance:** Powered by Vite and optimized state management.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+- **Framework:** [React](https://reactjs.org/) (via [Vite](https://vitejs.dev/))
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **State Management:** [Redux Toolkit](https://redux-toolkit.js.org/)
+- **Charts:** [Recharts](https://recharts.org/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **HTTP Client:** Axios
+- **Mock Backend:** JSON Server
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+  ## 🚀 Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Follow these instructions to set up the project locally on your machine.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Prerequisites
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Make sure you have **Node.js** installed.
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/Erdem-Baran/react-modern-inventory-dashboard.git](https://github.com/Erdem-Baran/react-modern-inventory-dashboard.git)
+   cd react-modern-inventory-dashboard
+   ```
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+3. ***Start the Mock Server (JSON Server): This project uses db.json as a mock database. Open a terminal and run***
+   ```bash
+   npx json-server --watch db.json --port 3001
+   ```
+4. ***Run the Application: Open a new terminal window and start the Vite dev server***
+   ```bash
+   npm run dev
+   ```
+
+.
+
+📂 Project Structure
 ```
+src/
+├── api/            # Axios setup and API services
+├── components/     # Reusable UI components (Sidebar, Header, etc.)
+├── layouts/        # Layout wrappers (DashboardLayout)
+├── pages/          # Application pages (Dashboard, Products, Orders, etc.)
+├── store/          # Redux store and slices (Theme, etc.)
+├── types/          # TypeScript interfaces and types
+├── lib/            # Utility functions
+└── App.tsx         # Main application entry
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```

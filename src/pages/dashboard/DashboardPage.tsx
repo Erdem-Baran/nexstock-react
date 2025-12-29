@@ -23,14 +23,14 @@ const StatCard = ({
   description,
   loading,
 }: any) => (
-  <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+  <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
     <div className="flex items-center justify-between">
       <div>
-        <p className="text-sm font-medium text-gray-500">{title}</p>
+        <p className="text-sm font-medium text-gray-500 dark:text-gray-200">{title}</p>
         {loading ? (
           <div className="h-8 w-24 bg-gray-200 animate-pulse rounded mt-1"></div>
         ) : (
-          <h3 className="text-2xl font-bold text-gray-900 mt-1">{value}</h3>
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-200 mt-1">{value}</h3>
         )}
       </div>
       <div className={`p-3 rounded-full ${color}`}>
@@ -96,7 +96,7 @@ export default function DashboardPage() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Control Panel</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-200">Control Panel</h1>
         <p className="text-gray-500">
           Live view of your business's overall inventory status.
         </p>
@@ -148,13 +148,13 @@ export default function DashboardPage() {
       {/* --- GRAPHS --- */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Category Distribution (Bar Chart) */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-100">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-200 mb-4">
             Category Distribution
           </h3>
           <div className="h-64 w-full min-w-0">
             {isLoading ? (
-              <div className="h-full flex items-center justify-center text-gray-400">
+              <div className="h-full flex items-center justify-center text-gray-400 dark:text-gray-200">
                 Loading...
               </div>
             ) : (
@@ -163,12 +163,12 @@ export default function DashboardPage() {
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="name" tick={{ fontSize: 12 }} />
                   <YAxis />
-                  <Tooltip cursor={{ fill: "#f3f4f6" }} />
+                  <Tooltip cursor={false} />
                   <Bar
                     dataKey="value"
-                    fill="#3b82f6"
                     radius={[4, 4, 0, 0]}
                     name="Number of Products"
+                    className="fill-blue-500 dark:hover:fill-amber-500 transition-colors duration-300 cursor-pointer"
                   />
                 </BarChart>
               </ResponsiveContainer>
@@ -177,13 +177,13 @@ export default function DashboardPage() {
         </div>
 
         {/* Stock Status (Pie Chart) */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-100">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-200 mb-4">
             Stock Status
           </h3>
           <div className="h-64 w-full min-w-0">
             {isLoading ? (
-              <div className="h-full flex items-center justify-center text-gray-400">
+              <div className="h-full flex items-center justify-center text-gray-400 dark:text-gray-200">
                 Loading...
               </div>
             ) : (
@@ -211,7 +211,7 @@ export default function DashboardPage() {
               {statusData.map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-2 text-sm text-gray-600"
+                  className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-200"
                 >
                   <div
                     className="w-3 h-3 rounded-full"

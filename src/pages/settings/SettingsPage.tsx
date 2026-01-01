@@ -1,7 +1,5 @@
 import { useState } from "react";
-import {
-  Save, Bell, Lock, Store, Mail, Sun, Moon,
-} from "lucide-react";
+import { Save, Bell, Lock, Store, Mail, Sun, Moon } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { setTheme } from "../../store/themeSlice";
 import type { RootState } from "../../store/store";
@@ -11,7 +9,7 @@ import { Input } from "../../components/ui/Input";
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("general");
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const dispatch = useDispatch();
   const currentTheme = useSelector((state: RootState) => state.theme.mode);
 
@@ -27,14 +25,16 @@ export default function SettingsPage() {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Settings</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Settings
+          </h1>
           <p className="text-gray-500 dark:text-gray-400">
             Manage your app preferences and account settings.
           </p>
         </div>
-        <Button 
-          onClick={handleSave} 
-          isLoading={isLoading} 
+        <Button
+          onClick={handleSave}
+          isLoading={isLoading}
           icon={<Save className="w-4 h-4" />}
         >
           Save Changes
@@ -49,7 +49,7 @@ export default function SettingsPage() {
               {[
                 { id: "general", icon: Store, label: "General" },
                 { id: "notifications", icon: Bell, label: "Notifications" },
-                { id: "security", icon: Lock, label: "Security" }
+                { id: "security", icon: Lock, label: "Security" },
               ].map((item) => (
                 <button
                   key={item.id}
@@ -70,13 +70,13 @@ export default function SettingsPage() {
 
         {/* RIGHT CONTENT */}
         <div className="flex-1">
-          
           {/* --- GENERAL SETTINGS --- */}
           {activeTab === "general" && (
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 space-y-6 animate-in fade-in zoom-in-95 duration-200">
-              
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Appearance</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  Appearance
+                </label>
                 <div className="flex gap-4">
                   <button
                     onClick={() => dispatch(setTheme("light"))}
@@ -105,15 +105,19 @@ export default function SettingsPage() {
               </div>
 
               <div className="border-b border-gray-100 dark:border-gray-700 pb-4">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Store Information</h2>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Store Information
+                </h2>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Input label="Store Name" defaultValue="NexStock Technology" />
                 <Input label="Email Address" defaultValue="info@nexstock.com" />
-                
+
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Currency</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Currency
+                  </label>
                   <select className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-900 dark:text-white">
                     <option value="USD">US Dollar ($)</option>
                     <option value="TRY">Turkish Lira (₺)</option>
@@ -126,8 +130,10 @@ export default function SettingsPage() {
           {/* --- NOTIFICATIONS --- */}
           {activeTab === "notifications" && (
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 space-y-6 animate-in fade-in zoom-in-95 duration-200">
-               <div className="border-b border-gray-100 dark:border-gray-700 pb-4">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Notification Preferences</h2>
+              <div className="border-b border-gray-100 dark:border-gray-700 pb-4">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Notification Preferences
+                </h2>
               </div>
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-4 border border-gray-100 dark:border-gray-700 rounded-lg">
@@ -136,11 +142,19 @@ export default function SettingsPage() {
                       <Bell className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-white">Low Stock Alert</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Get notified when stock is low.</p>
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        Low Stock Alert
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Get notified when stock is low.
+                      </p>
                     </div>
                   </div>
-                  <input type="checkbox" defaultChecked className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500" />
+                  <input
+                    type="checkbox"
+                    defaultChecked
+                    className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+                  />
                 </div>
                 <div className="flex items-center justify-between p-4 border border-gray-100 dark:border-gray-700 rounded-lg">
                   <div className="flex items-center gap-3">
@@ -148,11 +162,18 @@ export default function SettingsPage() {
                       <Mail className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-white">Weekly Report</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Receive weekly summary via email.</p>
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        Weekly Report
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Receive weekly summary via email.
+                      </p>
                     </div>
                   </div>
-                  <input type="checkbox" className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500" />
+                  <input
+                    type="checkbox"
+                    className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+                  />
                 </div>
               </div>
             </div>
@@ -162,13 +183,27 @@ export default function SettingsPage() {
           {activeTab === "security" && (
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 space-y-6 animate-in fade-in zoom-in-95 duration-200">
               <div className="border-b border-gray-100 dark:border-gray-700 pb-4">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Password Change</h2>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Password Change
+                </h2>
               </div>
 
               <div className="space-y-4 max-w-md">
-                <Input type="password" label="Current Password" placeholder="••••••••" />
-                <Input type="password" label="New Password" placeholder="••••••••" />
-                <Input type="password" label="Confirm Password" placeholder="••••••••" />
+                <Input
+                  type="password"
+                  label="Current Password"
+                  placeholder="••••••••"
+                />
+                <Input
+                  type="password"
+                  label="New Password"
+                  placeholder="••••••••"
+                />
+                <Input
+                  type="password"
+                  label="Confirm Password"
+                  placeholder="••••••••"
+                />
               </div>
 
               <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
@@ -176,7 +211,6 @@ export default function SettingsPage() {
               </div>
             </div>
           )}
-
         </div>
       </div>
     </div>

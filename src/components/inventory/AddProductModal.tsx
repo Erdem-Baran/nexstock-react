@@ -1,197 +1,178 @@
+import { useEffect } from "react";
+import { X, Upload } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { X, Loader2 } from "lucide-react";
-import { useEffect } from "react";
-import type { Product } from "../../types/product";
-
-//  Validation Scheme
-const productSchema = z.object({
-  name: z
-    .string()
-    .min(2, "The product name must be at least 2 characters long."),
-  category: z.string().min(2, "Category is required"),
-  price: z.number().min(0, "Price cannot be less than zero."),
-  stock: z.number().min(0, "Stock cannot be less than zero"),
-  status: z.enum(["In Stock", "Low Stock", "Out of Stock"]),
-});
-
-// The data type of the form (derived from the Schema)
-type ProductFormData = z.infer<typeof productSchema>;
+import { productSchema, type ProductFormData, type Product } from "../../types/product";
+import { useAddProduct, useUpdateProduct } from "../../api/productApi";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
 
 interface AddProductModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: ProductFormData) => void;
-  isSubmitting: boolean;
-  initialData?: Product | null;
+  productToEdit?: Product | null;
 }
 
-export default function AddProductModal({
-  isOpen,
-  onClose,
-  onSubmit,
-  isSubmitting,
-  initialData,
-}: AddProductModalProps) {
+export default function AddProductModal({ isOpen, onClose, productToEdit }: AddProductModalProps) {
+  const isEditMode = !!productToEdit;
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
     reset,
+    formState: { errors },
   } = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
     defaultValues: {
-      status: "In Stock", // Default value
+      name: "",
+      category: "Electronics",
+      price: 0,
+      stock: 0,
+      status: "In Stock",
     },
   });
 
+  const addProductMutation = useAddProduct();
+  const updateProductMutation = useUpdateProduct();
+
   useEffect(() => {
-    if (!isOpen) {
-      if(initialData){
+    if (isOpen) {
+      if (productToEdit) {
         reset({
-          name: initialData.name,
-          category: initialData.category,
-          price: initialData.price,
-          stock: initialData.stock,
-          status: initialData.status
-        })
-      }else{
+          name: productToEdit.name,
+          category: productToEdit.category,
+          price: productToEdit.price,
+          stock: productToEdit.stock,
+          status: productToEdit.status,
+        });
+      } else {
         reset({
           name: "",
-          category: "",
+          category: "Electronics",
           price: 0,
           stock: 0,
           status: "In Stock",
         });
       }
     }
-  }, [isOpen, reset, initialData]);
+  }, [isOpen, productToEdit, reset]);
+
+  const onSubmit = (data: ProductFormData) => {
+    if (isEditMode && productToEdit) {
+      updateProductMutation.mutate(
+        { id: productToEdit.id, data }, 
+        {
+          onSuccess: () => {
+            onClose();
+          },
+        }
+      );
+    } else {
+      addProductMutation.mutate(data, {
+        onSuccess: () => {
+          onClose();
+        },
+      });
+    }
+  };
+
+  const isLoading = addProductMutation.isPending || updateProductMutation.isPending;
 
   if (!isOpen) return null;
 
   return (
-    // Background Blackout
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      {/* Modal Box */}
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
-        {/* Title */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50">
-          <h2 className="text-lg font-semibold text-gray-900">
-            {initialData ? "Edit Product" : "Add New Product"}
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-2xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col max-h-[90vh]">
+        
+        {/* HEADER */}
+        <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center bg-gray-50/50 dark:bg-gray-800/50">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            {isEditMode ? "Edit Product" : "Add New Product"}
           </h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 hover:bg-gray-200 p-1 rounded-full transition-colors"
-          >
+          <button onClick={onClose} className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors text-gray-500 dark:text-gray-400">
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
-          {/* Product Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Product Name
-            </label>
-            <input
-              {...register("name")}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-              placeholder="Ex: Wireless Mouse"
-            />
-            {errors.name && (
-              <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
-            )}
-          </div>
+        {/* BODY */}
+        <div className="p-6 overflow-y-auto custom-scrollbar">
+          <form id="product-form" onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="col-span-2">
+                <Input 
+                  label="Product Name" 
+                  placeholder="e.g. MacBook Pro M3"
+                  error={errors.name?.message}
+                  {...register("name")} 
+                />
+              </div>
 
-          {/* Category */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Category
-            </label>
-            <input
-              {...register("category")}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-              placeholder="Ex: Electronics"
-            />
-            {errors.category && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.category.message}
-              </p>
-            )}
-          </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
+                <select
+                  {...register("category")}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-900 dark:text-white"
+                >
+                  <option value="Electronics">Electronics</option>
+                  <option value="Fashion">Fashion</option>
+                  <option value="Home">Home</option>
+                  <option value="Office">Office</option>
+                </select>
+              </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            {/* Price */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Price ($)
-              </label>
-              <input
-                type="number"
-                {...register("price", { valueAsNumber: true })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              <Input 
+                label="Price ($)" 
+                type="number" 
+                step="0.01"
+                error={errors.price?.message}
+                {...register("price", { valueAsNumber: true })} 
               />
-              {errors.price && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.price.message}
-                </p>
-              )}
+
+              <Input 
+                label="Stock Quantity" 
+                type="number" 
+                error={errors.stock?.message}
+                {...register("stock", { valueAsNumber: true })} 
+              />
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                <select
+                  {...register("status")}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-900 dark:text-white"
+                >
+                  <option value="In Stock">In Stock</option>
+                  <option value="Low Stock">Low Stock</option>
+                  <option value="Out of Stock">Out of Stock</option>
+                </select>
+              </div>
             </div>
 
-            {/* Stock */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Stock Quantity
-              </label>
-              <input
-                type="number"
-                {...register("stock", { valueAsNumber: true })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-              {errors.stock && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.stock.message}
-                </p>
-              )}
+            {/* Image Upload Area */}
+            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer group">
+              <div className="p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-full mb-3 group-hover:scale-110 transition-transform">
+                <Upload className="w-6 h-6" />
+              </div>
+              <p className="text-sm font-medium text-gray-900 dark:text-white">Click to upload image</p>
             </div>
-          </div>
 
-          {/* Status (Select) */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Stock Status
-            </label>
-            <select
-              {...register("status")}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white"
-            >
-              <option value="In Stock">(In Stock)</option>
-              <option value="Low Stock">(Low Stock)</option>
-              <option value="Out of Stock">(Out of Stock)</option>
-            </select>
-          </div>
+          </form>
+        </div>
 
-          {/* Buttons */}
-          <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-100">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
-            >
-              {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-              {isSubmitting ? "Saving......" : "Save"}
-            </button>
-          </div>
-        </form>
+        {/* FOOTER */}
+        <div className="p-6 border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 flex justify-end gap-3">
+          <Button variant="secondary" onClick={onClose} type="button">
+            Cancel
+          </Button>
+          <Button 
+            type="submit" 
+            form="product-form" 
+            isLoading={isLoading}
+          >
+            {isEditMode ? "Save Changes" : "Add Product"}
+          </Button>
+        </div>
       </div>
     </div>
   );

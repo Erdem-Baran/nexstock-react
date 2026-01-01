@@ -101,7 +101,7 @@ export default function ProductsPage() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const queryClient = useQueryClient();
-  const [editingProduct, seteditingProduct] = useState<Product | null>(null);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   // 1. Pulling Data with React Query
   const {
@@ -145,12 +145,12 @@ export default function ProductsPage() {
   // Function that cleans everything when the modal closes
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    seteditingProduct(null);
+    setEditingProduct(null);
   };
 
   // Will run when the Edit button is clicked
   const handleEdit = (product: Product) => {
-    seteditingProduct(product);
+    setEditingProduct(product);
     setIsModalOpen(true);
   };
 
@@ -307,24 +307,14 @@ export default function ProductsPage() {
           </div>
         )}
         {/* MODAL */}
-        <AddProductModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          initialData={editingProduct}
-          onSubmit={(data: any) => {
-            if (editingProduct) {
-              updateProductMutation.mutate({ ...editingProduct, ...data });
-            } else {
-              addProductMutation.mutate({
-                ...data,
-                lastUpdated: new Date().toISOString().split("T")[0],
-              });
-            }
-          }}
-          isSubmitting={
-            addProductMutation.isPending || updateProductMutation.isPending
-          }
-        />
+        <AddProductModal 
+  isOpen={isModalOpen} 
+  onClose={() => {
+    setIsModalOpen(false);
+    setEditingProduct(null); // Modal kapanınca seçili ürünü sıfırla
+  }} 
+  productToEdit={editingProduct} // <-- ARTIK HATA VERMEYECEK
+/>
       </div>
     </div>
   );

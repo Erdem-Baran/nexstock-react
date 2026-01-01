@@ -11,9 +11,7 @@ import {
 } from "@tanstack/react-table";
 import {
   getProducts,
-  addProduct,
   deleteProduct,
-  updateProduct,
 } from "../../api/productApi";
 import type { Product } from "../../types/product";
 import {
@@ -113,24 +111,6 @@ export default function ProductsPage() {
     queryFn: getProducts,
   });
 
-  // Add Data
-  const addProductMutation = useMutation({
-    mutationFn: addProduct,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-      setIsModalOpen(false);
-      handleCloseModal();
-    },
-  });
-
-  // Update Data
-  const updateProductMutation = useMutation({
-    mutationFn: updateProduct,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-      handleCloseModal();
-    },
-  });
 
   // DELETION MUTATION
   const deleteMutation = useMutation({
@@ -141,13 +121,6 @@ export default function ProductsPage() {
   });
 
   // --- HANDLERS (Event Management) ---
-
-  // Function that cleans everything when the modal closes
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setEditingProduct(null);
-  };
-
   // Will run when the Edit button is clicked
   const handleEdit = (product: Product) => {
     setEditingProduct(product);
@@ -311,9 +284,9 @@ export default function ProductsPage() {
   isOpen={isModalOpen} 
   onClose={() => {
     setIsModalOpen(false);
-    setEditingProduct(null); // Modal kapanınca seçili ürünü sıfırla
+    setEditingProduct(null);
   }} 
-  productToEdit={editingProduct} // <-- ARTIK HATA VERMEYECEK
+  productToEdit={editingProduct}
 />
       </div>
     </div>

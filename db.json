@@ -45,6 +45,14 @@
       "stock": 9,
       "status": "Low Stock",
       "lastUpdated": "2025-12-26"
+    },
+    {
+      "id": 315,
+      "name": "headphones",
+      "category": "Electronics",
+      "price": 17,
+      "stock": 20,
+      "status": "In Stock"
     }
   ],
   "orders": [

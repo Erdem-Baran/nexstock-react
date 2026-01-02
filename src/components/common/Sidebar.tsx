@@ -27,7 +27,7 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
       <aside 
         className={`
-          fixed lg:static inset-y-0 left-0 z-30 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 
+          fixed lg:static inset-y-0 left-0 z-30 w-64 bg-blue-100 dark:bg-gray-900 border-r border-gray-300 dark:border-gray-800 
           flex flex-col transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"} 
         `}
@@ -57,8 +57,8 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-3 rounded-xl transition-colors font-medium ${
                   isActive
-                    ? "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
-                    : "text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+                    ? "bg-blue-300 text-blue-800 dark:bg-blue-700/20 dark:text-blue-300"
+                    : "text-gray-600 hover:bg-blue-200 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
                 }`
               }
             >

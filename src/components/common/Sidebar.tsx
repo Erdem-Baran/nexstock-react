@@ -1,9 +1,18 @@
-import { LayoutDashboard, Package, ShoppingCart, Users, FileBarChart, Settings, LogOut, X } from "lucide-react";
+import {
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  Users,
+  FileBarChart,
+  Settings,
+  LogOut,
+  X,
+} from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 interface SidebarProps {
-  isOpen?: boolean;     
-  onClose?: () => void; 
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
 export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
@@ -18,14 +27,14 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
   return (
     <>
-      <div 
+      <div
         className={`fixed inset-0 bg-black/50 z-20 lg:hidden transition-opacity duration-200 ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
       />
 
-      <aside 
+      <aside
         className={`
           fixed lg:static inset-y-0 left-0 z-30 w-64 bg-blue-100 dark:bg-gray-900 border-r border-gray-300 dark:border-gray-800 
           flex flex-col transition-transform duration-300 ease-in-out
@@ -39,8 +48,8 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </h1>
 
           {/* Close Button on Mobile (X Icon) */}
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="lg:hidden p-1 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 rounded-lg transition-colors"
           >
             <X className="w-6 h-6" />

@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { Save, Bell, Lock, Moon, Store, Mail, Sun } from "lucide-react";
+import { Save, Bell, Lock, Store, Mail, Sun, Moon } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { setTheme } from "../../store/themeSlice";
 import type { RootState } from "../../store/store";
+import { Button } from "../../components/ui/Button";
+import { Input } from "../../components/ui/Input";
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("general");
   const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useDispatch();
   const currentTheme = useSelector((state: RootState) => state.theme.mode);
 
-  // Save simulation
   const handleSave = () => {
     setIsLoading(true);
     setTimeout(() => {
@@ -23,296 +25,189 @@ export default function SettingsPage() {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-200">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Settings
           </h1>
-          <p className="text-gray-500 dark:text-gray-200">
+          <p className="text-gray-500 dark:text-gray-400">
             Manage your app preferences and account settings.
           </p>
         </div>
-        <button
+        <Button
           onClick={handleSave}
-          disabled={isLoading}
-          className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+          isLoading={isLoading}
+          icon={<Save className="w-4 h-4" />}
         >
-          <Save className="w-4 h-4" />
-          {isLoading ? "Recording..." : "Save"}
-        </button>
+          Save Changes
+        </Button>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6">
-        {/* --- LEFT MENU  --- */}
+        {/* LEFT MENU */}
         <div className="w-full lg:w-64 shrink-0">
-          <div className="bg-white dark:bg-gray-900 dark:text-gray-200 rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden transition-colors">
             <nav className="flex flex-col p-2 space-y-1">
-              <button
-                onClick={() => setActiveTab("general")}
-                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors dark:hover:text-gray-200 dark:hover:bg-gray-800  ${
-                  activeTab === "general"
-                    ? "bg-blue-50 text-blue-700 dark:bg-gray-900 dark:text-gray-200"
-                    : "text-gray-600 hover:bg-gray-50 dark:bg-gray-900 dark:text-gray-200"
-                }`}
-              >
-                <Store className="w-5 h-5" />
-                General
-              </button>
-
-              <button
-                onClick={() => setActiveTab("notifications")}
-                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors dark:hover:text-gray-200 dark:hover:bg-gray-800 ${
-                  activeTab === "notifications"
-                    ? "bg-blue-50 text-blue-700 dark:bg-gray-900 dark:text-gray-200"
-                    : "text-gray-600 hover:bg-gray-50 dark:bg-gray-900 dark:text-gray-200"
-                }`}
-              >
-                <Bell className="w-5 h-5" />
-                Notifications
-              </button>
-
-              <button
-                onClick={() => setActiveTab("security")}
-                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors dark:hover:text-gray-200 dark:hover:bg-gray-800 ${
-                  activeTab === "security"
-                    ? "bg-blue-50 text-blue-700 dark:bg-gray-900 dark:text-gray-200"
-                    : "text-gray-600 hover:bg-gray-50 dark:bg-gray-900 dark:text-gray-200"
-                }`}
-              >
-                <Lock className="w-5 h-5" />
-                Security
-              </button>
+              {[
+                { id: "general", icon: Store, label: "General" },
+                { id: "notifications", icon: Bell, label: "Notifications" },
+                { id: "security", icon: Lock, label: "Security" },
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                    activeTab === item.id
+                      ? "bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400"
+                      : "text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700"
+                  }`}
+                >
+                  <item.icon className="w-5 h-5" />
+                  {item.label}
+                </button>
+              ))}
             </nav>
           </div>
         </div>
 
-        {/* --- RIGHT CONTENT --- */}
+        {/* RIGHT CONTENT */}
         <div className="flex-1">
-          {/* GENERAL SETTINGS */}
+          {/* --- GENERAL SETTINGS --- */}
           {activeTab === "general" && (
-            <div className="bg-white dark:bg-gray-900 dark:text-gray-200 rounded-xl shadow-sm border border-gray-200 p-6 space-y-6 animate-in fade-in duration-300">
-              {/* THEME SETTINGS SECTION */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 space-y-6 animate-in fade-in zoom-in-95 duration-200">
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                  Appearance Preference
+                  Appearance
                 </label>
                 <div className="flex gap-4">
                   <button
-                    onClick={() => dispatch(setTheme("light"))} // Redux Dispatch
+                    onClick={() => dispatch(setTheme("light"))}
                     className={`flex-1 flex items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all ${
                       currentTheme === "light"
-                        ? "border-blue-500 bg-blue-50 text-blue-700"
-                        : "border-gray-200 hover:border-gray-300 text-gray-600 dark:text-gray-400 dark:border-gray-700"
+                        ? "border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400"
+                        : "border-gray-200 hover:border-gray-300 text-gray-600 dark:border-gray-700 dark:text-gray-400 dark:hover:border-gray-600"
                     }`}
                   >
                     <Sun className="w-6 h-6" />
-                    <div className="text-left">
-                      <p className="font-semibold">Light Mode</p>
-                      <p className="text-xs opacity-70">For daytime use</p>
-                    </div>
+                    <span className="font-semibold">Light Mode</span>
                   </button>
 
                   <button
-                    onClick={() => dispatch(setTheme("dark"))} // Redux Dispatch
+                    onClick={() => dispatch(setTheme("dark"))}
                     className={`flex-1 flex items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all ${
                       currentTheme === "dark"
-                        ? "border-blue-500 bg-gray-900 text-white"
-                        : "border-gray-200 hover:border-gray-300 text-gray-600 dark:text-gray-400 dark:border-gray-700"
+                        ? "border-blue-500 bg-gray-900 text-white dark:bg-blue-900/50 dark:border-blue-500"
+                        : "border-gray-200 hover:border-gray-300 text-gray-600 dark:border-gray-700 dark:text-gray-400 dark:hover:border-gray-600"
                     }`}
                   >
                     <Moon className="w-6 h-6" />
-                    <div className="text-left">
-                      <p className="font-semibold">Dark Mode</p>
-                      <p className="text-xs opacity-70">Eye-friendly theme</p>
-                    </div>
+                    <span className="font-semibold">Dark Mode</span>
                   </button>
                 </div>
               </div>
-              <div className="border-b border-gray-100 pb-4">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
+
+              <div className="border-b border-gray-100 dark:border-gray-700 pb-4">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Store Information
                 </h2>
-                <p className="text-sm text-gray-500 dark:text-gray-200">
-                  Your business's basic information.
-                </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input label="Store Name" defaultValue="NexStock Technology" />
+                <Input label="Email Address" defaultValue="info@nexstock.com" />
+
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                    Store Name
-                  </label>
-                  <input
-                    type="text"
-                    defaultValue="NexStock Technology"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    defaultValue="info@nexstock.com"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Currency
                   </label>
-                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-900">
-                    <option value="TRY">Türk Lirası (₺)</option>
-                    <option value="USD">Amerikan Doları ($)</option>
-                    <option value="EUR">Euro (€)</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                    Time Zone
-                  </label>
-                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-900">
-                    <option>(GMT+03:00) İstanbul</option>
-                    <option>(GMT+00:00) Londra</option>
-                    <option>(GMT-05:00) New York</option>
+                  <select className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-900 dark:text-white">
+                    <option value="USD">US Dollar ($)</option>
+                    <option value="TRY">Turkish Lira (₺)</option>
                   </select>
                 </div>
               </div>
             </div>
           )}
 
-          {/* NOTIFICATIONS */}
+          {/* --- NOTIFICATIONS --- */}
           {activeTab === "notifications" && (
-            <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 p-6 space-y-6 animate-in fade-in duration-300">
-              <div className="border-b border-gray-100 pb-4">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 space-y-6 animate-in fade-in zoom-in-95 duration-200">
+              <div className="border-b border-gray-100 dark:border-gray-700 pb-4">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Notification Preferences
                 </h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Select the situations in which you want to receive alerts.
-                </p>
               </div>
-
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700  transition-colors">
+                <div className="flex items-center justify-between p-4 border border-gray-100 dark:border-gray-700 rounded-lg">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-yellow-100 text-yellow-600 rounded-lg">
+                    <div className="p-2 bg-yellow-100 text-yellow-600 rounded-lg dark:bg-yellow-900/30 dark:text-yellow-400">
                       <Bell className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-gray-200">
+                      <p className="font-medium text-gray-900 dark:text-white">
                         Low Stock Alert
                       </p>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Notify when product stock falls below 10.
+                        Get notified when stock is low.
                       </p>
                     </div>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      defaultChecked
-                      className="sr-only peer"
-                    />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                  </label>
+                  <input
+                    type="checkbox"
+                    defaultChecked
+                    className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+                  />
                 </div>
-
-                <div className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700  transition-colors">
+                <div className="flex items-center justify-between p-4 border border-gray-100 dark:border-gray-700 rounded-lg">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-green-100 text-green-600 rounded-lg">
-                      <Store className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-900 dark:text-gray-200">
-                        New Order Notification
-                      </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Send an email whenever a new order arrives.
-                      </p>
-                    </div>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      defaultChecked
-                      className="sr-only peer"
-                    />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                  </label>
-                </div>
-
-                <div className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700  transition-colors">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-purple-100 text-purple-600 rounded-lg">
+                    <div className="p-2 bg-purple-100 text-purple-600 rounded-lg dark:bg-purple-900/30 dark:text-purple-400">
                       <Mail className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-gray-200">
+                      <p className="font-medium text-gray-900 dark:text-white">
                         Weekly Report
                       </p>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Send the weekly summary report every Monday.
+                        Receive weekly summary via email.
                       </p>
                     </div>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" className="sr-only peer" />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                  </label>
+                  <input
+                    type="checkbox"
+                    className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+                  />
                 </div>
               </div>
             </div>
           )}
 
-          {/* SECURITY */}
+          {/* --- SECURITY --- */}
           {activeTab === "security" && (
-            <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 p-6 space-y-6 animate-in fade-in duration-300">
-              <div className="border-b border-gray-100 pb-4">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
-                  Password and Security
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 space-y-6 animate-in fade-in zoom-in-95 duration-200">
+              <div className="border-b border-gray-100 dark:border-gray-700 pb-4">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Password Change
                 </h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Keep your account security up to date.
-                </p>
               </div>
 
               <div className="space-y-4 max-w-md">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                    Current Password
-                  </label>
-                  <input
-                    type="password"
-                    placeholder="••••••••"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:text-gray-100 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                    New Password
-                  </label>
-                  <input
-                    type="password"
-                    placeholder="••••••••"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none dark:text-gray-100"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                    New Password (Repeat)
-                  </label>
-                  <input
-                    type="password"
-                    placeholder="••••••••"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:text-gray-100 outline-none"
-                  />
-                </div>
+                <Input
+                  type="password"
+                  label="Current Password"
+                  placeholder="••••••••"
+                />
+                <Input
+                  type="password"
+                  label="New Password"
+                  placeholder="••••••••"
+                />
+                <Input
+                  type="password"
+                  label="Confirm Password"
+                  placeholder="••••••••"
+                />
               </div>
 
-              <div className="pt-4 border-t border-gray-100">
-                <button className="px-4 py-2 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 text-sm font-medium transition-colors">
-                  Delete Account
-                </button>
+              <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
+                <Button variant="danger">Delete Account</Button>
               </div>
             </div>
           )}

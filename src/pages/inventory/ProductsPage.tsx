@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   createColumnHelper,
   flexRender,
@@ -9,12 +9,7 @@ import {
   getFilteredRowModel,
   type SortingState,
 } from "@tanstack/react-table";
-import {
-  getProducts,
-  addProduct,
-  deleteProduct,
-  updateProduct,
-} from "../../api/productApi";
+import { getProducts, deleteProduct } from "../../api/productApi";
 import type { Product } from "../../types/product";
 import {
   Loader2,
@@ -26,6 +21,7 @@ import {
   Edit,
 } from "lucide-react";
 import AddProductModal from "../../components/inventory/AddProductModal";
+import { useDebounce } from "../../hooks/useDebounce";
 
 // Defining Table Columns
 const columnHelper = createColumnHelper<Product>();
@@ -34,7 +30,9 @@ const columns = [
   columnHelper.accessor("name", {
     header: "Product Name",
     cell: (info) => (
-      <span className="font-medium text-gray-900 dark:text-gray-200">{info.getValue()}</span>
+      <span className="font-medium text-gray-900 dark:text-gray-200">
+        {info.getValue()}
+      </span>
     ),
   }),
   columnHelper.accessor("category", {
@@ -101,7 +99,10 @@ export default function ProductsPage() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const queryClient = useQueryClient();
-  const [editingProduct, seteditingProduct] = useState<Product | null>(null);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   // 1. Pulling Data with React Query
   const {
@@ -113,25 +114,6 @@ export default function ProductsPage() {
     queryFn: getProducts,
   });
 
-  // Add Data
-  const addProductMutation = useMutation({
-    mutationFn: addProduct,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-      setIsModalOpen(false);
-      handleCloseModal();
-    },
-  });
-
-  // Update Data
-  const updateProductMutation = useMutation({
-    mutationFn: updateProduct,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-      handleCloseModal();
-    },
-  });
-
   // DELETION MUTATION
   const deleteMutation = useMutation({
     mutationFn: deleteProduct,
@@ -141,16 +123,9 @@ export default function ProductsPage() {
   });
 
   // --- HANDLERS (Event Management) ---
-
-  // Function that cleans everything when the modal closes
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    seteditingProduct(null);
-  };
-
   // Will run when the Edit button is clicked
   const handleEdit = (product: Product) => {
-    seteditingProduct(product);
+    setEditingProduct(product);
     setIsModalOpen(true);
   };
 
@@ -161,9 +136,33 @@ export default function ProductsPage() {
     }
   };
 
+  // Filtering products based on debounced search term
+  // --- GÜVENLİ VE PERFORMANSLI FİLTRELEME ---
+  const filteredProducts = useMemo(() => {
+    if (!products) return [];
+
+    const term = debouncedSearchTerm.toLowerCase().trim();
+
+    if (term.length < 3) {
+      return products;
+    }
+
+    if (!term) return products;
+
+    return products.filter((product) => {
+      const name = String(product.name || "").toLowerCase();
+      const category = String(product.category || "").toLowerCase();
+      const status = String(product.status || "").toLowerCase();
+
+      return (
+        name.includes(term) || category.includes(term) || status.includes(term)
+      );
+    });
+  }, [products, debouncedSearchTerm]);
+
   // 2. creating the table
   const table = useReactTable({
-    data: products,
+    data: filteredProducts,
     columns,
     state: {
       sorting,
@@ -203,7 +202,9 @@ export default function ProductsPage() {
       {/* HEADER AND BUTTON */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-200">Inventory</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-200">
+            Inventory
+          </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">
             You can manage your products here.
           </p>
@@ -222,8 +223,8 @@ export default function ProductsPage() {
         <input
           type="text"
           placeholder="Search by product name, category, or status..."
-          value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full md:w-80 focus:ring-2 focus:ring-blue-500 outline-none dark:placeholder-gray-400"
         />
       </div>
@@ -250,7 +251,10 @@ export default function ProductsPage() {
           </thead>
           <tbody className="divide-y divide-gray-200">
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+              <tr
+                key={row.id}
+                className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              >
                 {row.getVisibleCells().map((cell) => {
                   if (cell.column.id === "actions") {
                     return (
@@ -309,21 +313,11 @@ export default function ProductsPage() {
         {/* MODAL */}
         <AddProductModal
           isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          initialData={editingProduct}
-          onSubmit={(data: any) => {
-            if (editingProduct) {
-              updateProductMutation.mutate({ ...editingProduct, ...data });
-            } else {
-              addProductMutation.mutate({
-                ...data,
-                lastUpdated: new Date().toISOString().split("T")[0],
-              });
-            }
+          onClose={() => {
+            setIsModalOpen(false);
+            setEditingProduct(null);
           }}
-          isSubmitting={
-            addProductMutation.isPending || updateProductMutation.isPending
-          }
+          productToEdit={editingProduct}
         />
       </div>
     </div>

@@ -20,7 +20,7 @@ export default function DashboardLayout() {
         {/* We are sending the toggle function to the header. */}
         <Header toggleSidebar={toggleSidebar} />
         
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6 dark:bg-gray-900">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto p-6 bg-linear-to-r from-blue-100 to-blue-300 dark:from-gray-900 dark:to-gray-700">
           <Outlet />
         </main>
       </div>

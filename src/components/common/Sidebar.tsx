@@ -1,12 +1,28 @@
-import { LayoutDashboard, Package, ShoppingCart, Users, FileBarChart, Settings, LogOut, X } from "lucide-react";
+import {
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  Users,
+  FileBarChart,
+  Settings,
+  LogOut,
+  X,
+} from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useOnClickOutside } from "../../hooks/useClickOutside";
 
 interface SidebarProps {
-  isOpen?: boolean;     
-  onClose?: () => void; 
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
+export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const sidebarRef = useOnClickOutside(() => {
+    if (isOpen) {
+      onClose();
+    }
+  });
+
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/" },
     { icon: Package, label: "Inventory", path: "/inventory" },
@@ -18,16 +34,17 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
   return (
     <>
-      <div 
+      <div
         className={`fixed inset-0 bg-black/50 z-20 lg:hidden transition-opacity duration-200 ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
       />
 
-      <aside 
+      <aside
+        ref={sidebarRef}
         className={`
-          fixed lg:static inset-y-0 left-0 z-30 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 
+          fixed lg:static inset-y-0 left-0 z-30 w-64 bg-blue-100 dark:bg-gray-900 border-r border-gray-300 dark:border-gray-800 
           flex flex-col transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"} 
         `}
@@ -39,8 +56,8 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </h1>
 
           {/* Close Button on Mobile (X Icon) */}
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="lg:hidden p-1 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 rounded-lg transition-colors"
           >
             <X className="w-6 h-6" />
@@ -57,8 +74,8 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-3 rounded-xl transition-colors font-medium ${
                   isActive
-                    ? "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
-                    : "text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+                    ? "bg-blue-300 text-blue-800 dark:bg-blue-700/20 dark:text-blue-300"
+                    : "text-gray-600 hover:bg-blue-200 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
                 }`
               }
             >
